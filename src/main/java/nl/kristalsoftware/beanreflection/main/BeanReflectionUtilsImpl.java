@@ -1,13 +1,14 @@
 package nl.kristalsoftware.beanreflection.main;
 
-import java.lang.annotation.Annotation;
+import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
+
+	//@Inject
+	//private Logger log;
 
 	public BeanReflectionUtilsImpl() {}
 
@@ -17,17 +18,17 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 		return f;
 	}
 
-//	public List<Field> getNonStaticFields(Class<?> c) {
-//		Field[] fieldArr = c.getDeclaredFields();
-//		List<Field> list = new ArrayList<Field>();
-//		for (Field f : fieldArr) {
-//			if (!Modifier.isStatic(f.getModifiers())) {
-//				list.add(f);
-//				Logger.debug(f.toString());
-//			}
-//		}
-//		return list;
-//	}
+	public List<Field> getNonStaticFields(Class<?> c) {
+		Field[] fieldArr = c.getDeclaredFields();
+		List<Field> list = new ArrayList<Field>();
+		for (Field f : fieldArr) {
+			if (!Modifier.isStatic(f.getModifiers())) {
+				list.add(f);
+				//log.info(f.toString());
+			}
+		}
+		return list;
+	}
 //
 //	public Map<String, Field> createFieldsMap(List<Field> fieldList) {
 //		Map<String,Field> fieldMap = new HashMap<String,Field>();

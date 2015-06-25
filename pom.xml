@@ -5,6 +5,12 @@
     <artifactId>bean-reflection</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
+    <repositories>
+        <repository>
+            <id>jboss repository</id>
+            <url>http://repository.jboss.org/nexus</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -22,6 +28,18 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+            <version>2.2.13.Final</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
