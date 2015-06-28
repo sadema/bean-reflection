@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -33,7 +34,17 @@ public class BeanReflectionUtilsImplTest {
     }
 
     @Inject
+    private Logger log;
+
+    @Inject
     private BeanManager beanManager;
+
+    @Test
+    public void testCDIBootstrap() throws Exception {
+        log.info("Start testCDIBootstrap");
+        assertNotNull("beanManager not injected", beanManager);
+        assertFalse("no beans from BeanManager class", beanManager.getBeans(BeanManager.class).isEmpty());
+    }
 
     @Test
     public void testGetProductidField() throws Exception {
