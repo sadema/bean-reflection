@@ -1,15 +1,21 @@
 package nl.kristalsoftware.beanreflection.main;
 
+import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 
 	public BeanReflectionUtilsImpl() {}
+
+	@Inject
+	private Logger log;
 
 	@Override
 	public <T> Field getField(T bean, String fieldName) throws NoSuchFieldException {
@@ -17,17 +23,19 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 		return f;
 	}
 
-//	public List<Field> getNonStaticFields(Class<?> c) {
-//		Field[] fieldArr = c.getDeclaredFields();
-//		List<Field> list = new ArrayList<Field>();
-//		for (Field f : fieldArr) {
-//			if (!Modifier.isStatic(f.getModifiers())) {
-//				list.add(f);
-//				Logger.debug(f.toString());
-//			}
-//		}
-//		return list;
-//	}
+	@Override
+	public List<Field> getNonStaticFields(Class<?> c) {
+		Field[] fieldArr = c.getDeclaredFields();
+		List<Field> list = new ArrayList<Field>();
+		for (Field f : fieldArr) {
+			if (!Modifier.isStatic(f.getModifiers())) {
+				list.add(f);
+				log.info(f.toString());
+//				log.log(Level.FINE, f.toString());
+			}
+		}
+		return list;
+	}
 //
 //	public Map<String, Field> createFieldsMap(List<Field> fieldList) {
 //		Map<String,Field> fieldMap = new HashMap<String,Field>();

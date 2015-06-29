@@ -7,17 +7,17 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 /**
  * Created by sjoerdadema on 15-06-15.
@@ -37,6 +37,9 @@ public class BeanReflectionUtilsImplTest {
     private Logger log;
 
     @Inject
+    private BeanReflectionUtils utils;
+
+    @Inject
     private BeanManager beanManager;
 
     @Test
@@ -48,8 +51,7 @@ public class BeanReflectionUtilsImplTest {
 
     @Test
     public void testGetProductidField() throws Exception {
-        ProductData productData = new ProductData("123");
-        BeanReflectionUtils utils = new BeanReflectionUtilsImpl();
+        ProductData productData = new ProductData("123", "Wyse T10D");
         Field f = utils.getField(productData, "productid");
         assertNotNull("field is null", f);
         assertThat("name is not productid", f.getName(), is("productid"));
@@ -57,8 +59,15 @@ public class BeanReflectionUtilsImplTest {
 
     @Test(expected = NoSuchFieldException.class)
     public void testThrowNoSuchFieldException() throws Exception {
-        ProductData productData = new ProductData("123");
-        BeanReflectionUtils utils = new BeanReflectionUtilsImpl();
+        ProductData productData = new ProductData("123", "Wyse T10D");
         Field f = utils.getField(productData, "NonExistentFieldname");
+    }
+
+    @Test
+    public void testGetAllNonStaticFields() throws Exception {
+        ProductData productData = new ProductData("123", "Wyse T10D");
+        List<Field> fldList = utils.getNonStaticFields(productData.getClass());
+        assertNotNull("field is null", fldList);
+        assertFalse("empty list", fldList.isEmpty());
     }
 }

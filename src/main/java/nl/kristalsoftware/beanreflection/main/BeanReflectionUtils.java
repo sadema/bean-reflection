@@ -7,10 +7,22 @@ import java.util.List;
 import java.util.Map;
 
 public interface BeanReflectionUtils {
-	
+
+	/**
+	 * Get a field from a bean by fieldname
+	 * @param bean
+	 * @param fieldName
+	 * @return
+	 * @throws NoSuchFieldException
+	 */
 	<T> Field getField(T bean, String fieldName) throws NoSuchFieldException;
 
-//	List<Field> getNonStaticFields(Class<?> c);
+	/**
+	 *
+	 * @param c
+	 * @return
+	 */
+	List<Field> getNonStaticFields(Class<?> c);
 //
 //	<T,A extends Annotation> List<Field> getAnnotatedFields(T bean, Class<A> annotationClass);
 //

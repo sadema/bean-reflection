@@ -7,8 +7,11 @@ public class ProductData {
 
     private String productid;
 
-    public ProductData(String productid) {
+    private String description;
+
+    public ProductData(String productid, String description) {
         this.productid = productid;
+        this.description = description;
     }
 
     public String getProductid() {
@@ -19,4 +22,11 @@ public class ProductData {
         this.productid = productid;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
