@@ -15,14 +15,26 @@ public interface BeanReflectionUtils {
 	 * @return
 	 * @throws NoSuchFieldException
 	 */
-	<T> Field getField(T bean, String fieldName) throws NoSuchFieldException;
+	Field getField(Class<?> bean, String fieldName) throws NoSuchFieldException;
 
 	/**
 	 *
 	 * @param c
 	 * @return
 	 */
-	List<Field> getNonStaticFields(Class<?> c);
+	List<Field> getNonStaticFields(Class<?> bean);
+
+	/**
+	 * get the value of a field in the bean
+	 * @param bean
+	 * @param field
+	 * @param clazz
+	 * @param <T>
+	 * @param <V>
+	 * @return
+	 */
+	<T,V> V getFieldValue(T bean, Field field, Class<V> clazz);
+
 //
 //	<T,A extends Annotation> List<Field> getAnnotatedFields(T bean, Class<A> annotationClass);
 //

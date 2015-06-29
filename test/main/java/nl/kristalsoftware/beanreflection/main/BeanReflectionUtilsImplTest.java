@@ -48,7 +48,7 @@ public class BeanReflectionUtilsImplTest {
 
     @Before
     public void createProductData() {
-        productData = new ProductData("123", "Wyse T10D");
+        productData = new ProductData(123, "Wyse T10D");
     }
 
     @After
@@ -65,20 +65,37 @@ public class BeanReflectionUtilsImplTest {
 
     @Test
     public void testGetProductidField() throws Exception {
-        Field f = utils.getField(productData, "productid");
+        Field f = utils.getField(ProductData.class, "productid");
         assertNotNull("field is null", f);
         assertThat("name is not productid", f.getName(), is("productid"));
     }
 
     @Test(expected = NoSuchFieldException.class)
     public void testThrowNoSuchFieldException() throws Exception {
-        Field f = utils.getField(productData, "NonExistentFieldname");
+        Field f = utils.getField(ProductData.class, "NonExistentFieldname");
     }
 
     @Test
     public void testGetAllNonStaticFields() throws Exception {
-        List<Field> fldList = utils.getNonStaticFields(productData.getClass());
+        List<Field> fldList = utils.getNonStaticFields(ProductData.class);
         assertNotNull("field is null", fldList);
         assertFalse("empty list", fldList.isEmpty());
     }
+
+    @Test
+    public void testGetValueOfProductidField() throws Exception {
+        Field f = utils.getField(ProductData.class, "productid");
+        Integer val = utils.getFieldValue(productData, f, Integer.class);
+        assertNotNull("value of field is null", val);
+        assertThat("value of field productid is not 123", val, is(123));
+    }
+
+    @Test
+    public void testGetValueOfDescriptionField() throws Exception {
+        Field f = utils.getField(ProductData.class, "description");
+        String val = utils.getFieldValue(productData, f, String.class);
+        assertNotNull("value of field is null", val);
+        assertThat("value of field description is not Wyse T10D", val, is("Wyse T10D"));
+    }
+
 }

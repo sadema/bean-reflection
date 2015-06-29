@@ -5,20 +5,20 @@ package nl.kristalsoftware.beanreflection.data;
  */
 public class ProductData {
 
-    private String productid;
+    private Integer productid;
 
     private String description;
 
-    public ProductData(String productid, String description) {
+    public ProductData(Integer productid, String description) {
         this.productid = productid;
         this.description = description;
     }
 
-    public String getProductid() {
+    public Integer getProductid() {
         return productid;
     }
 
-    public void setProductid(String productid) {
+    public void setProductid(Integer productid) {
         this.productid = productid;
     }
 

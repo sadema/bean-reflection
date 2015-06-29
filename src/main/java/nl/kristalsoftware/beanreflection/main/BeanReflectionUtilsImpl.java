@@ -18,8 +18,8 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 	private Logger log;
 
 	@Override
-	public <T> Field getField(T bean, String fieldName) throws NoSuchFieldException {
-		Field f = bean.getClass().getDeclaredField(fieldName);
+	public Field getField(Class<?> bean, String fieldName) throws NoSuchFieldException {
+		Field f = bean.getDeclaredField(fieldName);
 		return f;
 	}
 
@@ -30,12 +30,41 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 		for (Field f : fieldArr) {
 			if (!Modifier.isStatic(f.getModifiers())) {
 				list.add(f);
-				log.info(f.toString());
-//				log.log(Level.FINE, f.toString());
+				log.log(Level.FINE, f.toString());
 			}
 		}
 		return list;
 	}
+
+	private <T> Object getFieldValue(T bean, Field field) {
+		int mod = field.getModifiers();
+		if (!Modifier.isPublic(mod)) {
+			field.setAccessible(true);
+		}
+		Object val = null;
+		try {
+			val = field.get(bean);
+		} catch (IllegalAccessException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		}
+		return val;
+	}
+
+	@Override
+	public <T,V> V getFieldValue(T bean, Field field, Class<V> clazz) {
+		int mod = field.getModifiers();
+		if (!Modifier.isPublic(mod)) {
+			field.setAccessible(true);
+		}
+		V val = null;
+		try {
+			val = (V) field.get(bean);
+		} catch (IllegalAccessException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		}
+		return val;
+	}
+
 //
 //	public Map<String, Field> createFieldsMap(List<Field> fieldList) {
 //		Map<String,Field> fieldMap = new HashMap<String,Field>();
