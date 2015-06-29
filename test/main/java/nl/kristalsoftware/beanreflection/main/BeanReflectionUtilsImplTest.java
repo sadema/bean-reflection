@@ -7,6 +7,8 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,13 +36,25 @@ public class BeanReflectionUtilsImplTest {
     }
 
     @Inject
+    private BeanManager beanManager;
+
+    @Inject
     private Logger log;
 
     @Inject
     private BeanReflectionUtils utils;
 
-    @Inject
-    private BeanManager beanManager;
+    private ProductData productData;
+
+    @Before
+    public void createProductData() {
+        productData = new ProductData("123", "Wyse T10D");
+    }
+
+    @After
+    public void removeProductData() {
+        productData = null;
+    }
 
     @Test
     public void testCDIBootstrap() throws Exception {
@@ -51,7 +65,6 @@ public class BeanReflectionUtilsImplTest {
 
     @Test
     public void testGetProductidField() throws Exception {
-        ProductData productData = new ProductData("123", "Wyse T10D");
         Field f = utils.getField(productData, "productid");
         assertNotNull("field is null", f);
         assertThat("name is not productid", f.getName(), is("productid"));
@@ -59,13 +72,11 @@ public class BeanReflectionUtilsImplTest {
 
     @Test(expected = NoSuchFieldException.class)
     public void testThrowNoSuchFieldException() throws Exception {
-        ProductData productData = new ProductData("123", "Wyse T10D");
         Field f = utils.getField(productData, "NonExistentFieldname");
     }
 
     @Test
     public void testGetAllNonStaticFields() throws Exception {
-        ProductData productData = new ProductData("123", "Wyse T10D");
         List<Field> fldList = utils.getNonStaticFields(productData.getClass());
         assertNotNull("field is null", fldList);
         assertFalse("empty list", fldList.isEmpty());
