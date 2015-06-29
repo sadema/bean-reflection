@@ -2,10 +2,7 @@ package nl.kristalsoftware.beanreflection.main;
 
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +62,26 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 		return val;
 	}
 
-//
+	@Override
+	public <T, V> V getFieldValueWithGetter(T bean, Field field, Class<V> clazz) throws NoSuchMethodException {
+		Class<?> c = bean.getClass();
+		String fieldName = field.getName();
+		log.fine(fieldName);
+		Method method;
+		String capital = fieldName.substring(0, 1).toUpperCase();
+		method = c.getMethod("get" + capital + fieldName.substring(1));
+		V val = null;
+		try {
+			val = (V) method.invoke(bean);
+		} catch (IllegalAccessException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		} catch (InvocationTargetException e) {
+			log.log(Level.SEVERE, e.getMessage());
+		}
+		return val;
+	}
+
+	//
 //	public Map<String, Field> createFieldsMap(List<Field> fieldList) {
 //		Map<String,Field> fieldMap = new HashMap<String,Field>();
 //		Iterator<Field> iter = fieldList.iterator();

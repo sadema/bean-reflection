@@ -98,4 +98,20 @@ public class BeanReflectionUtilsImplTest {
         assertThat("value of field description is not Wyse T10D", val, is("Wyse T10D"));
     }
 
+    @Test
+    public void testGetValueOfProductidFieldWithGetter() throws Exception {
+        Field f = utils.getField(ProductData.class, "productid");
+        Integer val = utils.getFieldValueWithGetter(productData, f, Integer.class);
+        assertNotNull("value of field is null", val);
+        assertThat("value of field productid is not 123", val, is(123));
+    }
+
+    @Test
+    public void testGetValueOfDescriptionFieldWithGetter() throws Exception {
+        Field f = utils.getField(ProductData.class, "description");
+        String val = utils.getFieldValueWithGetter(productData, f, String.class);
+        assertNotNull("value of field is null", val);
+        assertThat("value of field description is not Wyse T10D", val, is("Wyse T10D"));
+    }
+
 }

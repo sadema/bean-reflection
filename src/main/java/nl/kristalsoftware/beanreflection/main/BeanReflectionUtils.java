@@ -35,6 +35,16 @@ public interface BeanReflectionUtils {
 	 */
 	<T,V> V getFieldValue(T bean, Field field, Class<V> clazz);
 
+	/**
+	 * get the value of a field in the bean using a getter
+	 * @param bean
+	 * @param field
+	 * @param clazz
+	 * @param <T>
+	 * @param <V>
+	 * @return
+	 */
+	<T,V> V getFieldValueWithGetter(T bean, Field field, Class<V> clazz) throws NoSuchMethodException;
 //
 //	<T,A extends Annotation> List<Field> getAnnotatedFields(T bean, Class<A> annotationClass);
 //
