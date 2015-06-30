@@ -48,6 +48,31 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 	}
 
 	@Override
+	public <A extends Annotation> Field getAnnotatedField(Class<?> bean, Class<A> annotation) {
+		Field fld = null;
+		Field[] fieldArr = bean.getDeclaredFields();
+		for (Field f : fieldArr) {
+			if (f.isAnnotationPresent(annotation)) {
+				fld = f;
+				break;
+			}
+		}
+		return fld;
+	}
+
+	@Override
+	public <A extends Annotation> List<Field> getAnnotatedFields(Class<?> bean, Class<A> annotation) {
+		List<Field> annotatedFields = new ArrayList<Field>();
+		Field[] fieldArr = bean.getDeclaredFields();
+		for (Field f : fieldArr) {
+			if (f.isAnnotationPresent(annotation)) {
+				annotatedFields.add(f);
+			}
+		}
+		return annotatedFields;
+	}
+
+	@Override
 	public <T,V> V getFieldValue(T bean, Field field, Class<V> clazz) {
 		int mod = field.getModifiers();
 		if (!Modifier.isPublic(mod)) {
@@ -81,6 +106,7 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 		return val;
 	}
 
+
 	//
 //	public Map<String, Field> createFieldsMap(List<Field> fieldList) {
 //		Map<String,Field> fieldMap = new HashMap<String,Field>();
@@ -91,23 +117,6 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 //			Logger.debug(field.toString());
 //		}
 //		return fieldMap;
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	public <V,T> V getFieldValue(Field field, T bean) {
-//		//Class<?> c = bean.getClass();
-//		//int mod = c.getModifiers();
-//		int mod = field.getModifiers();
-//		if (!Modifier.isPublic(mod)) {
-//			field.setAccessible(true);
-//		}
-//		V var = null;
-//		try {
-//			var = (V) field.get(bean);
-//		} catch (Exception e) {
-//			Logger.error(e.toString());
-//		}
-//		return var;
 //	}
 //
 //	@Override
@@ -121,23 +130,6 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 //		} catch (Exception e) {
 //			Logger.error(e.toString());
 //		}
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	public <V,T> V getFieldValueWithGetter(Field field, T bean) {
-//		V var = null;
-//		Class<?> c = bean.getClass();
-//		String fieldName = field.getName();
-//		Logger.debug(fieldName);
-//		Method method;
-//		try {
-//			method = c.getMethod("get" + StringUtils.capitalize(fieldName));
-//			Logger.debug(method.toString());
-//			var = (V) method.invoke(bean);
-//		} catch (Exception e) {
-//			Logger.error(e.getMessage());
-//		}
-//		return var;
 //	}
 //
 //	public <V,T> void setFieldValueWithSetter(Field field, V val, T bean) {
@@ -247,30 +239,5 @@ public class BeanReflectionUtilsImpl implements BeanReflectionUtils {
 //		}
 //	}
 //	*/
-//	public <T,A extends Annotation> List<Field> getAnnotatedFields(T bean, Class<A> annotationClass) {
-//		List<Field> annotatedFields = new ArrayList<Field>();
-//		Class<?> c = bean.getClass();
-//		Field[] fieldArr = c.getDeclaredFields();
-//		for (Field f : fieldArr) {
-//			if (f.isAnnotationPresent(annotationClass)) {
-//				annotatedFields.add(f);
-//			}
-//		}
-//		return annotatedFields;
-//	}
-//
-//	@Override
-//	public <T, A extends Annotation> Field getAnnotatedField(T bean, Class<A> annotationClass) {
-//		Field fld = null;
-//		Class<?> c = bean.getClass();
-//		Field[] fieldArr = c.getDeclaredFields();
-//		for (Field f : fieldArr) {
-//			if (f.isAnnotationPresent(annotationClass)) {
-//				fld = f;
-//				break;
-//			}
-//		}
-//		return fld;
-//	}
 
 }

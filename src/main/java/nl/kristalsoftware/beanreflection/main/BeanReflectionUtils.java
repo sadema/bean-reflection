@@ -25,6 +25,24 @@ public interface BeanReflectionUtils {
 	List<Field> getNonStaticFields(Class<?> bean);
 
 	/**
+	 * get a field with a specified annotation
+	 * @param bean
+	 * @param annotation
+	 * @param <A>
+	 * @return
+	 */
+	<A extends Annotation> Field getAnnotatedField(Class<?> bean, Class<A> annotation);
+
+	/**
+	 * get a list of fields with a specified annotation
+	 * @param bean
+	 * @param annotationClass
+	 * @param <A>
+	 * @return
+	 */
+	<A extends Annotation> List<Field> getAnnotatedFields(Class<?> bean, Class<A> annotationClass);
+
+	/**
 	 * get the value of a field in the bean
 	 * @param bean
 	 * @param field
@@ -45,26 +63,11 @@ public interface BeanReflectionUtils {
 	 * @return
 	 */
 	<T,V> V getFieldValueWithGetter(T bean, Field field, Class<V> clazz) throws NoSuchMethodException;
-//
-//	<T,A extends Annotation> List<Field> getAnnotatedFields(T bean, Class<A> annotationClass);
-//
-//	<T,A extends Annotation> Field getAnnotatedField(T bean, Class<A> annotationClass);
-//
+
 //	Map<String, Field> createFieldsMap(List<Field> fieldList);
-//
-//	<V,T> V getFieldValue(Field field, T bean);
 //
 //	<V,T> void setFieldValue(Field field, V value, T bean);
 //
-//	<V,T> V getFieldValueWithGetter(Field field, T bean);
-//
-//	/**
-//	 * Set the value with a setter method where val is NOT a parameterized type
-//	 * @param field
-//	 * @param val
-//	 * @param bean
-//	 */
-//	<V,T> void setFieldValueWithSetter(Field field, V val, T bean);
 //
 //	/**
 //	 * Set the value with a setter method where val has a parameterized Collection<> interface
